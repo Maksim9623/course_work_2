@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request
 from utils import get_posts_by_user, get_post_by_pk, get_comments_by_post_id, search_for_posts, load_post_from_data
 
 
@@ -21,9 +21,18 @@ def page_posts_uid(uid):
     return render_template("post.html", posts=posts, comments=comment)
 
 
+# Создаем вьюшку для поиска по словам
+@post_blueprint.route('/search/', methods=['GET'])
+def page_posts_search():
+    search = request.args.get("s")
+    posts = search_for_posts(search)
+
+    return render_template("search.html", search=search, posts=posts)
+
+
 # Создаем вьюшку для получения информации по имени пользователя
 @post_blueprint.route('/users/<username>', methods=['GET'])
 def page_posts_username(username):
-    posts = get_posts_by_user(username)
-    return render_template("index.html", posts=posts)
+    users = get_posts_by_user(username)
+    return render_template("user-feed.html", users=users)
 

@@ -14,9 +14,11 @@ def load_post_from_data():
 def get_posts_by_user(user_name):
     """ возвращает посты определенного пользователя """
     user_names = load_post_from_data()
+    names = []
     for name in user_names:
         if name['poster_name'].lower() == user_name.lower():
-            return name
+            names.append(name)
+    return names
 
 
 def load_from_comment():
@@ -29,19 +31,21 @@ def load_from_comment():
 def get_comments_by_post_id(post_id):
     """ возвращает комментарии определенного поста """
     id_ = load_from_comment()
+    comment = []
     for i in id_:
-        if i['pk'] == post_id:
-            return i
-
-
+        if i['post_id'] == post_id:
+            comment.append(i)
+    return comment
 
 
 def search_for_posts(query):
     """ возвращает список постов по ключевому слову """
     contents = load_post_from_data()
+    post = []
     for content in contents:
         if query.lower() in content['content'].lower():
-            return content
+            post.append(content)
+    return post
 
 
 def get_post_by_pk(pk):
